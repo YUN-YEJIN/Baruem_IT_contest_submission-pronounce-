@@ -1,0 +1,143 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #ededed;
+  min-height: 100vh;
+  font-family: 'Pretendard Variable', Pretendard, 'Cafe24Ssurround', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.feedback-container {
+  width: 412px;
+  height: 917px;
+  background: #fbf4eb;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.feedback-header {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 16px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #394D5E;
+  margin-top: 12px;
+  position: relative;
+}
+
+.back-btn-link {
+  color: #394D5E;
+  font-size: 32px;
+  text-decoration: none;
+  margin-right: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+}
+.back-btn-link svg {
+  width: 24px;
+  height: 24px;
+}
+
+.feedback-title {
+  flex: 1;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: #394D5E;
+  letter-spacing: -1px;
+  margin-right: 36px;
+}
+
+.feedback-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 220px;
+}
+
+.feedback-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feedback-label {
+  margin-top: 40px;
+  font-size: 20px;
+  color: #8C9BA5;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  text-align: center;
+}
+
+.bottom-sheet {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 70px;                     /* ← 흰 영역 시작 위치(필요시 미세 조정) */
+  bottom: 0;                      /* ← 하단까지 꽉 채움 */
+  width: 412px;
+  background: #fff;
+  border-top-left-radius: 80px;
+  border-top-right-radius: 80px;
+  box-shadow: 0 -2px 16px rgba(0,0,0,0.10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  overflow: hidden;               /* ← 내부 스크롤은 sheet-content에서 처리 */
+}
+
+.sheet-handle {
+  width: 36px;
+  height: 6px;
+  background: #d3d3d3;
+  border-radius: 30px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.sheet-content {
+  opacity: 1;
+  pointer-events: auto;
+  margin-top: 24px;
+  padding: 0 24px;
+  width: 100%;
+  box-sizing: border-box;
+  color: #394D5E;
+  font-size: 18px;
+  text-align: left;
+  flex: 1;                       
+  overflow: auto;  
+}
+
+.sheet-content ol {
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 30px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.sheet-content li {
+  font-size: 20px;
+  color: #394D5E;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  line-height: 1.7;
+}

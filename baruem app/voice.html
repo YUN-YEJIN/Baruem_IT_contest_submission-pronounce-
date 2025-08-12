@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=412, user-scalable=no">
+  <title>음성 입력</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="voice.css">
+  <style>
+    @font-face {
+      font-family: 'Cafe24Ssurround';
+      src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+  </style>
+</head>
+<body>
+  <div class="voice-container">
+    <header class="voice-header">
+      <a href="analysis.html" class="voice-back-btn" aria-label="뒤로가기">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </a>
+      <span class="voice-title">음성 입력</span>
+    </header>
+    <main>
+      <!-- 녹음 화면 -->
+      <div class="voice-main" id="voice-main">
+        <div class="voice-white-area">
+          <div class="voice-circle">
+            <img src="wave_static.png" alt="분석 파형" class="circle-gif">
+          </div>
+        </div>
+        <div class="voice-guide">분석을 원하는 문장을 말해주세요</div>
+        <div class="voice-controls">
+          <button class="voice-btn" id="play-btn" aria-label="녹음 시작">
+            <span class="icon-play"></span>
+          </button>
+          <button class="voice-btn" id="stop-btn" aria-label="녹음 정지">
+            <span class="icon-stop"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 분석 결과 완료 화면 -->
+      <div class="analysis-result" id="analysis-result" style="display:none;">
+        <div class="voice-white-area">
+          <div class="voice-circle">
+            <img src="wave_static.png" alt="분석 파형" class="circle-gif">
+          </div>
+        </div>
+        <div class="result-guide">분석이 완료되었습니다</div>
+        <div class="button-wrapper">
+          <button id="check-result-btn" class="check-result-btn">분석 결과 확인하기</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 디버그 정보 -->
+  <div id="debug-info" style="display:none; position:fixed; bottom:10px; left:10px; background:rgba(0,0,0,0.8); color:white; padding:10px; font-size:12px; max-width:300px; border-radius:5px;"></div>
+
+  <script>
+  let BACKEND_URL = 'http://localhost:5000';
+  let recordedChunks = [];
+  let mediaRecorder;
+  let recognition;
+  let rawTranscript = "";
+  let gumStream;
+  let isRecording = false;
+
+  const playBtn = document.getElementById('play-btn');
+  const stopBtn = document.getElementById('stop-btn');
+  const voiceMain = document.getElementById('voice-main');
+  const analysisResult = document.getElementById('analysis-result');
+  const checkResultBtn = document.getElementById('check-result-btn');
+  const gifImages = document.querySelectorAll('.circle-gif');
+  const debugInfoElement = document.getElementById('debug-info');
+
+  const staticImageSrc = 'wave_static.png';
+  const animatedGifSrc = 'wave.gif';
+
+  function logDebug(message) {
+    console.log(message);
+    debugInfoElement.style.display = "block";
+    debugInfoElement.textContent += message + "\n";
+  }
+
+  function resetButtons() {
+    playBtn.style.backgroundColor = '#fff';
+    stopBtn.style.backgroundColor = '#fff';
+  }
+
+  function cleanupResources() {
+    try {
+      if (recognition) {
+        recognition.stop();
+        recognition.abort();
+        recognition = null;
+      }
+      if (mediaRecorder) {
+        if (mediaRecorder.state !== 'inactive') {
+          mediaRecorder.stop();
+        }
+        mediaRecorder = null;
+      }
+      if (gumStream) {
+        gumStream.getTracks().forEach(track => track.stop());
+        gumStream = null;
+      }
+      isRecording = false;
+      logDebug("모든 리소스 정리 완료");
+    } catch (error) {
+      console.error("리소스 정리 중 오류:", error);
+    }
+  }
+
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    alert("이 브라우저는 음성 인식을 지원하지 않습니다. Chrome을 사용해주세요.");
+    playBtn.disabled = true;
+  }
+
+  async function startRecording() {
+    if (isRecording) return;
+    try {
+      cleanupResources();
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.lang = 'ko-KR';
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      gumStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+      recordedChunks = [];
+      mediaRecorder = new MediaRecorder(gumStream);
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) recordedChunks.push(e.data);
+      };
+
+      mediaRecorder.start(1000);
+      isRecording = true;
+      rawTranscript = "";
+
+      recognition.onresult = (event) => {
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            rawTranscript += transcript + " ";
+          }
+        }
+      };
+
+      recognition.start();
+      resetButtons();
+      playBtn.style.backgroundColor = '#BBD6EC';
+      voiceMain.style.display = '';
+      analysisResult.style.display = 'none';
+
+      gifImages.forEach(img => { img.src = animatedGifSrc; });
+
+    } catch (error) {
+      alert("마이크 접근 오류: " + error.message);
+      cleanupResources();
+    }
+  }
+
+  // [FIX] Blob ↔ base64 유틸
+  function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result); // data URL
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
+  function base64ToBlob(base64, type) {
+    const byteString = atob(base64.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+    return new Blob([ab], { type });
+  }
+
+  // [FIX] async로 변경, audioBlob을 base64로 저장
+  async function stopRecording() {
+    if (!isRecording) return;
+
+    if (recognition) recognition.stop();
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    if (gumStream) gumStream.getTracks().forEach(track => track.stop());
+
+    resetButtons();
+    stopBtn.style.backgroundColor = '#f8d7da';
+    gifImages.forEach(img => { img.src = staticImageSrc; });
+
+    isRecording = false;
+
+    if (rawTranscript.trim() !== "") {
+      const audioBlob = new Blob(recordedChunks, { type: 'audio/webm' });
+
+      // [FIX] 오디오와 텍스트 모두 localStorage에 저장
+      const recordingData = {
+        transcript: rawTranscript.trim(),
+        audioSize: audioBlob.size,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('recordingData', JSON.stringify(recordingData));
+
+      const base64 = await blobToBase64(audioBlob); // [FIX]
+      localStorage.setItem('audioBlob', base64);    // [FIX]
+
+      voiceMain.style.display = 'none';
+      analysisResult.style.display = 'block';
+    } else {
+      alert("음성이 인식되지 않았습니다.");
+    }
+  }
+
+  async function checkAnalysisResult() {
+    const recordingData = localStorage.getItem('recordingData');
+    if (!recordingData) { alert("녹음 데이터가 없습니다."); return; }
+
+    try {
+      checkResultBtn.textContent = "업로드 중...";
+      checkResultBtn.disabled = true;
+
+      const data = JSON.parse(recordingData);
+
+      // [FIX] 저장해둔 base64 오디오를 Blob으로 복원
+      const base64Audio = localStorage.getItem('audioBlob');
+      if (!base64Audio) throw new Error("오디오 데이터가 없습니다.");
+
+      const finalAudioBlob = base64ToBlob(base64Audio, 'audio/webm'); // [FIX]
+
+      logDebug(`업로드 시작: "${data.transcript}" (${finalAudioBlob.size} bytes)`);
+
+      const formData = new FormData();
+      formData.append("audio", finalAudioBlob, "recording.webm"); // [FIX]
+      formData.append("transcript", data.transcript);
+
+      logDebug("서버로 전송 중...");
+
+      const res = await fetch(`${BACKEND_URL}/upload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      logDebug(`서버 응답: ${res.status} ${res.statusText}`);
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`서버 오류 ${res.status}: ${errorText}`);
+      }
+
+      const json = await res.json();
+      logDebug(`업로드 성공: ${JSON.stringify(json)}`);
+
+      localStorage.setItem('analysisResult', JSON.stringify({
+        raw_transcript: json.raw_transcript || data.transcript,
+        corrected: null,
+        timestamp: Date.now()
+      }));
+
+      logDebug("correction.html로 이동");
+      window.location.href = 'correction.html';
+
+    } catch (e) {
+      logDebug(`업로드 실패: ${e.message}`);
+      let errorMsg = "업로드 실패";
+      if (e.message.includes("Failed to fetch")) {
+        errorMsg = "서버 연결 실패. 백엔드가 실행 중인지 확인하세요.";
+      } else if (e.message.includes("CORS")) {
+        errorMsg = "CORS 오류. 서버 설정을 확인하세요.";
+      } else if (e.message.includes("500")) {
+        errorMsg = "서버 내부 오류. 서버 로그를 확인하세요.";
+      } else {
+        errorMsg = e.message;
+      }
+      alert(errorMsg);
+      checkResultBtn.textContent = "분석 결과 확인하기";
+      checkResultBtn.disabled = false;
+    }
+  }
+
+  playBtn.addEventListener('click', startRecording);
+  stopBtn.addEventListener('click', stopRecording);
+  checkResultBtn.addEventListener('click', checkAnalysisResult);
+
+  window.addEventListener('beforeunload', cleanupResources);
+  window.addEventListener('DOMContentLoaded', () => {
+    gifImages.forEach(img => { img.src = staticImageSrc; });
+    localStorage.removeItem('recordingData');
+    localStorage.removeItem('analysisResult');
+    localStorage.removeItem('audioBlob');
+  });
+</script>
+
+</body>
+</html>

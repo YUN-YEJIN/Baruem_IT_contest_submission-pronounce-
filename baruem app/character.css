@@ -1,0 +1,122 @@
+@media (max-width: 600px) {
+  .container {
+    padding-top: env(safe-area-inset-top, 20px);
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #ededed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+.character-container {
+  width: 412px;
+  height: 917px;
+  background: #fdf6ee;
+  border-radius: 16px;
+
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.character-header {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 16px;
+  background: transparent;
+  font-size: 18px;
+  font-weight: 600;
+  color: #394D5E;
+  border-bottom: none;
+  margin-top: 12px;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: #394D5E;
+  font-size: 48px;
+  margin-right: 8px;
+  cursor: pointer;
+  padding: 0 4px;
+}
+.back-btn-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  text-decoration: none;
+}
+.back-btn-link svg {
+  width: 24px;
+  height: 24px;
+  color: #394D5E;
+}
+.header-title {
+  flex: 1;
+  margin-left: 100px;
+  margin-top: 1px;
+  font-size: 24px;
+  font-weight: 500;
+  color: #394D5E;
+  letter-spacing: -1px;
+}
+
+.character-list {
+  list-style: none;
+  margin: 32px 0 0 0;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.character-card {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: 16px;
+  padding: 3px 18px;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.character-card:active, .character-card.selected {
+  outline: 2px solid #e6cfa8;
+}
+
+.character-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  background: #f3e9db;
+  object-fit: contain;
+}
+
+.character-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.character-name {
+  font-size: 20px;
+  font-weight: 620;
+  color: #394D5E;
+}
+
+.character-desc {
+  font-size: 20px;
+  color: #394D5E;
+  margin-top: 2px;
+}

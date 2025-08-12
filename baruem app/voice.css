@@ -1,0 +1,296 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #ededed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+.voice-container {
+  width: 412px;
+  height: 917px;
+  background: #fdf6ee;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.voice-header {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 16px;
+  background: transparent;
+  font-size: 18px;
+  font-weight: 600;
+  color: #394D5E;
+  margin-top: 12px;
+  position: relative;
+}
+
+.voice-back-btn {
+  color: #394D5E;
+  font-size: 32px;
+  text-decoration: none;
+  margin-right: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.voice-title {
+  flex: 1;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: #394D5E;
+  letter-spacing: -1px;
+  margin-right: 36px;
+}
+
+
+.voice-white-area {
+  background: #fff;
+  width: 100vw;
+  max-width: 413px;
+  height: 423px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.voice-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 22px;
+}
+
+.voice-circle {
+  width: 245px;
+  height: 245px;
+  background: #FBF4EB;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 40px auto;
+  box-shadow: 0 4px 12px rgba(57, 77, 94, 0.1),
+              0 -4px 12px rgba(57, 77, 94, 0.1),
+              4px 0 12px rgba(57, 77, 94, 0.1),
+              -4px 0 12px rgba(57, 77, 94, 0.1);
+}
+
+
+.voice-guide {
+  font-size: 20px;
+  font-weight: 500;
+  color: #394D5E;
+  margin: 40px 0 36px 0;
+  text-align: center;
+}
+
+.voice-controls {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  margin-top: 180px; 
+}
+
+.voice-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid #394D5E;
+  background: #fdf6ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  font-size: 0;
+}
+
+.voice-btn:active, .voice-btn:focus {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  outline: none;
+}
+
+/* 플레이(재생) 아이콘 */
+.icon-play {
+  display: inline-block;
+  width: 27px;
+  height: 34px;
+  border-radius: 50%;
+  position: relative;
+}
+.icon-play::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 7px;      /* 중앙 정렬을 위해 조정 */
+  top: 5px;
+  width: 0;
+  height: 0;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  border-left: 20px solid #3a4c5e;
+}
+
+/* 정지 아이콘 */
+.icon-stop {
+  display: inline-block;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  position: relative;
+}
+.icon-stop::before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 20px;
+  height: 20px;
+  background: #394D5E;
+  border-radius: 4px;
+}
+
+
+
+
+/* 분석 중 로딩 화면 */
+.analysis-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding-top: 15px;
+  min-height: 300px;
+}
+.progress-guide {
+  font-size: 20px;
+  font-weight: 500;
+  color: #394D5E;
+  margin: 40px 0 36px 0;
+  text-align: center;
+}
+.progress-spinner {
+  margin-top: 32px;
+}
+.spinner {
+  margin-top: 50px;
+  width: 36px;
+  height: 36px;
+  border: 4px solid #eee5da;
+  border-top: 4px solid #394D5E;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.voice-white-area{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+/*분석 결과 완료 화면 */
+
+.analysis-result {
+  display: none; /* JS에서 block/flex로 토글 */
+  flex-direction: column;
+  align-items: center;
+  padding-top: 22px;
+}
+
+.result-wave {
+  width: 180px;
+  margin: 0 auto;
+  display: block;
+}
+
+.result-guide {
+  font-size: 20px;
+  color: #394D5E;
+  margin: 48px 0;
+    text-align: center;
+    font-weight: 500;
+    margin-left: 9px;
+}
+
+
+.result-word {
+  font-family: 'Cafe24Ssurround', sans-serif !important;
+  font-size: 64px;
+  font-weight: 800;
+  color: #394D5E;
+  text-align: center;
+  margin: 70px 0 16px 0;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center; /* 가로 가운데 정렬 */
+  align-items: center;     /* 세로 가운데 정렬 (필요할 때) */
+  margin-top: 80px;
+}
+
+.check-result-btn {
+  width: 369px;
+  height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #394D5E;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+.check-result-btn:hover {
+  background: #233040;
+}
+
+.circle-gif {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+}
+
+
+.voice-circle {
+  width: 245px;
+  height: 245px;
+  background: #FBF4EB;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 40px auto;
+  box-shadow: 0 4px 12px rgba(57, 77, 94, 0.1),
+              0 -4px 12px rgba(57, 77, 94, 0.1),
+              4px 0 12px rgba(57, 77, 94, 0.1),
+              -4px 0 12px rgba(57, 77, 94, 0.1);
+  position: relative;
+  overflow: hidden;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=412, user-scalable=no">
+  <title>회원가입</title>
+  <link rel="stylesheet" href="main.css" />
+  <link rel="stylesheet" href="signup.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <div class="fixed-screen">
+    <div class="signup-wrapper">
+      <img src="logo_wave.png" alt="logo" class="wave-icon" />
+
+      <div class="input-group">
+        <input type="text" class="signup-input" placeholder="닉네임을 설정해주세요." />
+      </div>
+
+      <div class="input-group">
+        <input type="text" class="signup-input" placeholder="아이디를 입력해주세요." />
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="signup-password" class="signup-input" placeholder="비밀번호를 입력해주세요." />
+        <i id="toggleSignupPassword" class="fa-solid fa-eye-slash eye-icon"></i>
+      </div>
+
+      <p id="password-warning" class="password-warning">
+        *비밀번호는 8자 이상, 숫자, 영문, 특수문자 조합이어야 합니다.
+      </p>
+
+      <a href="login.html" class="start-button">회원가입</a>
+    </div>
+  </div>
+
+  <script>
+    const signupPassword = document.getElementById("signup-password");
+    const toggleSignupPassword = document.getElementById("toggleSignupPassword");
+    const passwordWarning = document.getElementById("password-warning");
+
+    // 👁 비밀번호 보기/숨기기
+    toggleSignupPassword.addEventListener("click", () => {
+      const isHidden = signupPassword.type === "password";
+      signupPassword.type = isHidden ? "text" : "password";
+      toggleSignupPassword.classList.toggle("fa-eye", isHidden);
+      toggleSignupPassword.classList.toggle("fa-eye-slash", !isHidden);
+    });
+
+    // ✅ 실시간 비밀번호 유효성 검사
+    signupPassword.addEventListener("input", () => {
+      const value = signupPassword.value;
+      const isValid = (
+        value.length >= 8 &&
+        /[A-Za-z]/.test(value) &&     // 영문
+        /\d/.test(value) &&           // 숫자
+        /[^A-Za-z0-9]/.test(value)    // 특수문자
+      );
+      if (isValid) {
+        passwordWarning.style.display = "none";
+      } else {
+        passwordWarning.style.display = "block";
+      }
+    });
+  </script>
+</body>
+</html>
