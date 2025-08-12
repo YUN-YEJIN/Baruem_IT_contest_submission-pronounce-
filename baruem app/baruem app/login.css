@@ -1,0 +1,131 @@
+body {
+  background-color: #ededed;
+  font-family: "Pretendard", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+.fixed-screen {
+  width: 412px;
+  height: 917px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+  margin-top:-60px;
+  margin-bottom: 0px;
+}
+
+.input-group {
+  position: relative;
+  width: 100%;
+  max-width: 351px;
+  margin-bottom: -12px;
+}
+
+.login-input {
+  width: 100%;
+  padding: 14px 44px 14px 16px;
+  border-radius: 0; 
+  font-size: 15px;
+  border: 1px solid #ccc;
+  font-family: pretendard;
+  box-sizing: border-box;
+  background: white;
+  font-weight: 200;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #394D5E;
+  cursor: pointer;
+}
+
+.password-warning {
+  color: #FF6E5B;
+  font-size: 10px;
+  margin: 0px 0 -4px;
+  text-align: left;
+  max-width: 351px;
+  width: 100%;
+}
+
+.login-check {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #394D5E;
+  width: 100%;
+  max-width: 351px;
+  text-align: left;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.login-links {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  color: #888888;
+  margin-top: 12px;
+  white-space: nowrap;
+  line-height: 1;
+  font-weight: 200;
+}
+
+.login-links a {
+  display: inline;
+  width: auto;
+  padding: 0;
+  margin: 0 4px;
+  text-decoration: none;
+  color: #888888;
+  white-space: normal;
+}
+
+.start-button {
+  font-family: "Pretendard", sans-serif;
+  font-size: 15px;
+  margin-top: 40px;
+  width: 98%;
+  max-width: 351px;
+  background-color: #394D5E;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 0;
+  cursor: pointer;
+  font-weight: 400;
+  transition: background 0.2s;
+}
+.start-button:hover {
+  background: #2c3a4a;
+}
+
+.wave-icon {
+  width: 108px;
+  margin-bottom: 80px;
+}
+

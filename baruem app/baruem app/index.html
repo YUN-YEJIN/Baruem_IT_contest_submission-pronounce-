@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>바름 앱</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <div class="top-bar__left">
+        <img src="logo_wave.png" alt="바름 로고" class="top-bar__logo">
+        <span class="top-bar__brand">바름</span>
+      </div>
+      <div class="top-bar__right">
+        <span class="top-bar__nickname">바르다 님</span>
+        <img src="profile_icon.png" alt="프로필" class="top-bar__profile">
+      </div>
+    </div>
+<div class="date" id="today-date"></div>
+<script>
+  function getTodayString() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('today-date').textContent = getTodayString();
+  });
+</script>
+    <main>
+      <div class="menu">
+  <a href="analysis.html" class="menu-btn">실시간 음성 분석
+    <img src="arrow_cycle.png" alt="화살표" class="arrow-img">
+  </a>
+  <a href="language.html" class="menu-btn">언어 설정
+    <img src="arrow_cycle.png" alt="화살표" class="arrow-img">
+  </a>
+  <a href="character.html" class="menu-btn">캐릭터 변경
+    <img src="arrow_cycle.png" alt="화살표" class="arrow-img">
+  </a>
+</div>
+      <section class="word-list-section">
+  <h3 class="section-title">발음 교정 단어 모음</h3>
+  <div class="word-row" id="row1">
+    <div class="spacer small"></div>
+    <button class="word-btn"></button>
+    <button class="word-btn"></button>
+    <button class="word-btn"></button>
+  </div>
+  <div class="word-row" id="row2">
+    <button class="word-btn"></button>
+    <button class="word-btn"></button>
+    <button class="word-btn"></button>
+    <div class="spacer small"></div>
+  </div>
+  <div class="word-row" id="row3">
+    <div class="spacer small"></div>
+    <button class="word-btn"></button>
+    <button class="word-btn"></button>
+    <button class="word-btn"></button>
+  </div>
+  <div class="pagination">
+    <button class="page-btn" id="prev-btn">&lt;</button>
+    <button class="page-btn page-number active">1</button>
+    <button class="page-btn page-number">2</button>
+    <button class="page-btn page-number">3</button>
+    <button class="page-btn" id="next-btn">&gt;</button>
+  </div>
+</section>
+
+<script>
+ // 각 페이지별 단어 데이터 (줄별 3개씩)
+const wordPages = [
+  [ // 1페이지
+    ["생활", "토끼", "덮밥"],
+    ["음식", "놀이", "생각"],
+    ["인정", "인성", "변경"]
+  ],
+  [ // 2페이지
+    ["바다", "하늘", "구름"],
+    ["산책", "도서관", "학교"],
+    ["친구", "음악", "운동"]
+  ],
+  [ // 3페이지
+    ["사랑", "행복", "희망"],
+    ["미래", "추억", "꿈"],
+    ["도전", "성장", "열정"]
+  ]
+];
+
+const totalPages = wordPages.length;
+let currentPage = 1;
+
+// 단어 업데이트 함수
+function updateContent(page) {
+  // 각 row의 버튼을 가져와서 텍스트 변경
+  for (let i = 0; i < 3; i++) {
+    const row = document.getElementById(`row${i+1}`);
+    const btns = row.querySelectorAll('.word-btn');
+    for (let j = 0; j < 3; j++) {
+      btns[j].textContent = wordPages[page-1][i][j];
+    }
+  }
+}
+
+// 페이지네이션 버튼
+const pageNumbers = document.querySelectorAll('.page-number');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+
+// 페이지 전환 함수
+function updatePage(page) {
+  if (page < 1 || page > totalPages) return;
+  pageNumbers.forEach(btn => btn.classList.remove('active'));
+  pageNumbers[page-1].classList.add('active');
+  currentPage = page;
+  updateContent(page);
+}
+
+// 페이지 번호 클릭
+pageNumbers.forEach((btn, idx) => {
+  btn.addEventListener('click', () => updatePage(idx+1));
+});
+// 이전/다음 버튼
+prevBtn.addEventListener('click', () => updatePage(currentPage-1));
+nextBtn.addEventListener('click', () => updatePage(currentPage+1));
+
+// 초기 로딩
+document.addEventListener('DOMContentLoaded', () => {
+  updateContent(1);
+});
+
+</script>
+
+</section>
+
+      
+      <div class="recent-section">
+        <h3>최근 분석한 5 문장</h3>
+        
+        <ul id="recent-list">
+          <li>나는 학교에 갔어</li>
+          <li>저는 한국어를 배우고 있어요</li>
+          <li>저녁에 뭐 먹을래</li>
+          <li>내일 영화보러 가자</li>
+          <li>지하철역이 어디에 있나요</li>
+        </ul>
+      </div>
+    </main>

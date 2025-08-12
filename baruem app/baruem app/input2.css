@@ -1,0 +1,188 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.fixed-screen {
+  width: 100%;
+  height: 100vh;
+  background-color: #FBF4EB;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.direct-wrapper {
+  width: 100%;
+  height: 100%;
+  max-width: 412px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.direct-top {
+  background-color: #FBF4EB;
+  padding: 20px 0;
+  text-align: center;
+  position: relative;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  color: #394D5E;
+}
+
+.back-icon {
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #394D5E;
+  cursor: pointer;
+}
+
+/* 메인 콘텐츠 */
+.direct-content {
+  background-color: #FBF4EB;
+  flex: 1;
+  padding: 0;  /* ← 상단 여백 제거 */
+  text-align: center;
+}
+
+/* ✅ white-area: 곰돌이 전용 */
+.white-area {
+  width: 100%;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+  box-sizing: border-box;
+}
+
+/* 곰돌이 둥근 배경 */
+.voice-circle {
+  width: 245px;
+  height: 245px;
+  background: #FBF4EB;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(57, 77, 94, 0.1),
+              0 -4px 12px rgba(57, 77, 94, 0.1),
+              4px 0 12px rgba(57, 77, 94, 0.1),
+              -4px 0 12px rgba(57, 77, 94, 0.1);
+}
+
+.character-img {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+}
+
+/* ✅ 검색창 */
+.input-box {
+  text-align: center;
+  padding: 36px 24px 0;
+  max-width: 412px;
+  margin: 0 auto;
+  background-color: #FBF4EB;
+}
+
+.input-description {
+  font-size: 20px;
+  color: #394D5E;
+  margin-bottom: 20px;
+}
+
+.input-wrapper {
+  position: relative;
+  max-width: 360px;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 44px 14px 16px;
+  border: none;
+  border-radius: 16px;
+  background-color: white;
+  font-size: 15px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.search-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #394D5E;
+  cursor: pointer;
+}
+
+/* ✅ 결과 영역 */
+.result-container {
+  text-align: center;
+  margin-top: 0;
+  padding: 36px 24px 48px;
+  max-width: 412px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #FBF4EB;
+}
+
+.listen-description {
+  font-size: 20px;
+  font-weight: 400;
+  color: #394D5E;
+  margin-bottom: 12px;
+}
+
+.result-word {
+  font-size: 48px;
+  font-weight: 800;
+  color: #394D5E;
+  margin-bottom: 4px;
+}
+
+.listen-label {
+  font-size: 14px;
+  color: #394D5E;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.rate-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.rate-buttons button {
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #394D5E;
+  background-color: white;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(57, 77, 94, 0.1);
+  cursor: pointer;
+}
+
+.rate-buttons button:hover {
+  background-color: #f0e7d8;
+}
